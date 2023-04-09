@@ -22,7 +22,7 @@ namespace RaScenesSO
 
 		public string GetScenePath()
 		{
-			return _scenePath;
+			return _scenePath ?? string.Empty;
 		}
 
 		public bool IsValid()

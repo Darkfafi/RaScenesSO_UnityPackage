@@ -1,4 +1,5 @@
 using NestedSO;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace RaScenesSO
@@ -45,6 +46,34 @@ namespace RaScenesSO
 			return config;
 		}
 
+		protected void Awake()
+		{
+			hideFlags = HideFlags.DontUnloadUnusedAsset;
+
+#if UNITY_EDITOR
+			OnValidate();
+#endif
+		}
+		public override void AddAsset(ScriptableObject item)
+		{
+			base.AddAsset(item);
+#if UNITY_EDITOR
+			if(item is RaSceneSO sceneSO)
+			{
+				sceneSO.Editor_Setup();
+			}
+			OnValidate();
+#endif
+		}
+
+		public override void RemoveAsset(ScriptableObject item)
+		{
+			base.RemoveAsset(item);
+#if UNITY_EDITOR
+			OnValidate();
+#endif
+		}
+
 #if UNITY_EDITOR
 
 		protected void OnValidate()
@@ -52,12 +81,28 @@ namespace RaScenesSO
 			UnityEditor.EditorBuildSettingsScene[] scenes = new UnityEditor.EditorBuildSettingsScene[Count];
 			for(int i = 0; i < Count; i++)
 			{
-				RaSceneSO sceneConfig = this[i];
-				scenes[i] = new UnityEditor.EditorBuildSettingsScene(sceneConfig.ScenePath, true);
+				RaSceneSO raSceneSO = this[i];
+				scenes[i] = new UnityEditor.EditorBuildSettingsScene(raSceneSO.ScenePath, true);
 			}
 			UnityEditor.EditorBuildSettings.scenes = scenes;
 		}
 
+		internal static void Editor_RefreshSceneSettings()
+		{
+			string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(RaSceneSOCollection)}");
+			for(int i = 0; i < guids.Length; i++)
+			{
+				string pathToCollection = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
+				if(!string.IsNullOrEmpty(pathToCollection))
+				{
+					RaSceneSOCollection collection = UnityEditor.AssetDatabase.LoadAssetAtPath<RaSceneSOCollection>(pathToCollection);
+					if(collection != null)
+					{
+						collection.OnValidate();
+					}
+				}
+			}
+		}
 #endif
 	}
 }

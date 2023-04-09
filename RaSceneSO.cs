@@ -36,11 +36,33 @@ namespace RaScenesSO
 
 		#endregion
 
-		#region Protected Methods
-
-		protected void OnValidate()
+#if UNITY_EDITOR
+		internal void Editor_Setup()
 		{
 			_sceneName = _sceneReference.GetSceneName();
+		}
+#endif
+
+		#region Protected Methods
+
+		protected void Awake()
+		{
+#if UNITY_EDITOR
+			Editor_Setup();
+#endif
+		}
+
+		internal void OnValidate()
+		{
+#if UNITY_EDITOR
+			string oldName = _sceneName;
+			Editor_Setup();
+
+			if(oldName != _sceneName)
+			{
+				RaSceneSOCollection.Editor_RefreshSceneSettings();
+			}
+#endif
 		}
 
 		#endregion
