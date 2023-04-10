@@ -34,6 +34,11 @@ namespace RaScenesSO
 			return SceneManager.GetSceneByName(SceneName);
 		}
 
+		public void LoadScene()
+		{
+			SceneManager.LoadScene(SceneName);
+		}
+
 		#endregion
 
 #if UNITY_EDITOR
@@ -45,14 +50,14 @@ namespace RaScenesSO
 
 		#region Protected Methods
 
-		protected void Awake()
+		protected virtual void Awake()
 		{
 #if UNITY_EDITOR
 			Editor_Setup();
 #endif
 		}
 
-		internal void OnValidate()
+		protected virtual void OnValidate()
 		{
 #if UNITY_EDITOR
 			string oldName = _sceneName;

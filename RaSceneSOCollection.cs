@@ -74,10 +74,9 @@ namespace RaScenesSO
 #endif
 		}
 
-#if UNITY_EDITOR
-
-		protected void OnValidate()
+		protected virtual void OnValidate()
 		{
+#if UNITY_EDITOR
 			UnityEditor.EditorBuildSettingsScene[] scenes = new UnityEditor.EditorBuildSettingsScene[Count];
 			for(int i = 0; i < Count; i++)
 			{
@@ -85,8 +84,11 @@ namespace RaScenesSO
 				scenes[i] = new UnityEditor.EditorBuildSettingsScene(raSceneSO.ScenePath, true);
 			}
 			UnityEditor.EditorBuildSettings.scenes = scenes;
+#endif
 		}
 
+
+#if UNITY_EDITOR
 		internal static void Editor_RefreshSceneSettings()
 		{
 			string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(RaSceneSOCollection)}");
