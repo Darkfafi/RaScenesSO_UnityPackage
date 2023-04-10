@@ -1,7 +1,7 @@
 {
   "name": "rasofiagames.rascenesso",
   "displayName": "RaScenesSO",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2019.4",
   "description": "A package which adds Scriptable Objects which represent scenes and allow to load from one to another with a loader in between",
   "keywords": [
@@ -17,6 +17,6 @@
   },
   "type": "tool",
   "dependencies": {
-    "rasofiagames.nestedsocollection": "1.3.1"
+    "rasofiagames.nestedsocollection": "1.3.2"
   }
 }
