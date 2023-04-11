@@ -2,7 +2,8 @@
     "name": "RaScenesSO",
     "rootNamespace": "",
     "references": [
-        "GUID:dfc2e084a7513c94491b8f10d3d33ffd"
+        "GUID:dfc2e084a7513c94491b8f10d3d33ffd",
+        "GUID:a993abbb85e8ddf4784ab76d6b712ab1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

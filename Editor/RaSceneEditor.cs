@@ -28,7 +28,6 @@ namespace RaScenesSO.Editors
 					{
 						EditorApplication.isPlaying = false;
 					}
-
 					EditorSceneManager.OpenScene(raSceneSO.ScenePath);
 					EditorApplication.isPlaying = true;
 				}
