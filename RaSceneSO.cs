@@ -34,11 +34,6 @@ namespace RaScenesSO
 			return SceneManager.GetSceneByName(SceneName);
 		}
 
-		public void LoadScene()
-		{
-			SceneManager.LoadScene(SceneName);
-		}
-
 		#endregion
 
 #if UNITY_EDITOR
