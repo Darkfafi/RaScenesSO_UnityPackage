@@ -4,13 +4,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 namespace RaScenesSO
 {
 	public abstract class RaSceneLoaderBase : MonoBehaviour
 	{
+		public UnityEvent LoadingStartedEvent;
+		public UnityEvent LoadingEndedEvent;
+
 		[SerializeField]
-		private RaModelLocatorSO _models = null;
+		private RaModelSOCollection _models = null;
 
 		private CancellationTokenSource _cancellationTokenSource = null;
 
@@ -59,6 +63,8 @@ namespace RaScenesSO
 					RaSceneSO oldScene = SceneModel.PreviousScene;
 					RaSceneSO newScene = SceneModel.NextScene;
 
+					LoadingStartedEvent.Invoke();
+
 					await DoIntro(token);
 					token.ThrowIfCancellationRequested();
 
@@ -76,6 +82,8 @@ namespace RaScenesSO
 					SceneManager.UnloadSceneAsync(gameObject.scene);
 
 					SceneModel.Loader_End();
+
+					LoadingEndedEvent.Invoke();
 				}
 			}
 			catch(OperationCanceledException)
@@ -97,6 +105,9 @@ namespace RaScenesSO
 				_cancellationTokenSource.Dispose();
 				_cancellationTokenSource = null;
 			}
+
+			LoadingStartedEvent.RemoveAllListeners();
+			LoadingEndedEvent.RemoveAllListeners();
 		}
 
 		private async Task UnloadScene(RaSceneSO oldScene, LoadingProcess preProcess, LoadingProcess mainProcess, LoadingProcess postProcess, CancellationToken token)
