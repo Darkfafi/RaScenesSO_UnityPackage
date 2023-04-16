@@ -14,7 +14,7 @@ namespace RaScenesSO
 		public UnityEvent LoadingEndedEvent;
 
 		[SerializeField]
-		private RaModelSOCollection _models = null;
+		private RaModelSOLocator _models = null;
 
 		private CancellationTokenSource _cancellationTokenSource = null;
 

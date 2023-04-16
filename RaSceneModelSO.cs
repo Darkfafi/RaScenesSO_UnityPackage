@@ -6,6 +6,14 @@ namespace RaScenesSO
 {
 	public class RaSceneModelSO : RaModelSOBase
 	{
+		#region Events
+
+		public delegate void SceneHandler(RaSceneSO scene);
+		public event SceneHandler SceneLoadStartedEvent;
+		public event SceneHandler SceneLoadEndedEvent;
+
+		#endregion
+
 		#region Editor Variables
 
 		[SerializeField]
@@ -64,6 +72,14 @@ namespace RaScenesSO
 
 		#endregion
 
+		internal void Loader_StartLoadingScene()
+		{
+			if(IsLoading)
+			{
+				SceneLoadStartedEvent?.Invoke(NextScene);
+			}
+		}
+
 		internal void Loader_RefreshCurrentScene()
 		{
 			if(IsLoading)
@@ -76,7 +92,9 @@ namespace RaScenesSO
 		{
 			if(IsLoading)
 			{
+				RaSceneSO loadedScene = NextScene;
 				NextScene = null;
+				SceneLoadEndedEvent?.Invoke(loadedScene);
 			}
 		}
 
@@ -94,6 +112,8 @@ namespace RaScenesSO
 			CurrentScene = null;
 			PreviousScene = null;
 			NextScene = null;
+			SceneLoadEndedEvent = null;
+			SceneLoadStartedEvent = null;
 		}
 
 		#endregion
