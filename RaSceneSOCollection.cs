@@ -54,21 +54,18 @@ namespace RaScenesSO
 			OnValidate();
 #endif
 		}
-		public override void AddAsset(ScriptableObject item)
+
+		protected override void OnAddedAsset(RaSceneSO asset)
 		{
-			base.AddAsset(item);
+			base.OnAddedAsset(asset);
 #if UNITY_EDITOR
-			if(item is RaSceneSO sceneSO)
-			{
-				sceneSO.Editor_Setup();
-			}
+			asset.Editor_Setup();
 			OnValidate();
 #endif
 		}
 
-		public override void RemoveAsset(ScriptableObject item)
+		protected override void OnRemovedAsset(RaSceneSO asset)
 		{
-			base.RemoveAsset(item);
 #if UNITY_EDITOR
 			OnValidate();
 #endif
