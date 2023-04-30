@@ -1,5 +1,10 @@
 # Changelog RaScenesSO
 
+## v1.0.3 - 30/04/2023
+* Bumped RaScenesSOCollection dependency to v1.4.0 (was v1.3.2) to prevent constant exceptions during loading scenes
+* Added Start / Stop loading events to the RaSceneModelSO
+* Bumped RaModelsSO dependency to v1.1.0 (was v1.0.0)
+
 ## v1.0.2 - 14/04/2023
 * Corrected RaModelSOCollection type
 * Added Events for Start / End of loading
