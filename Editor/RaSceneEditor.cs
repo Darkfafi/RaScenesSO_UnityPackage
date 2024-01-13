@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace RaScenesSO.Editors
 {
-	[CustomEditor(typeof(RaSceneSO))]
-    public class SceneConfigEditor : Editor
-    {
+	[CustomEditor(typeof(RaSceneSO), editorForChildClasses: true)]
+	public class SceneConfigEditor : Editor
+	{
 		public override void OnInspectorGUI()
 		{
 			base.OnInspectorGUI();
@@ -15,16 +15,16 @@ namespace RaScenesSO.Editors
 
 			RaSceneSO raSceneSO = target as RaSceneSO;
 
-			if(!string.IsNullOrEmpty(raSceneSO.ScenePath))
+			if (!string.IsNullOrEmpty(raSceneSO.ScenePath))
 			{
-				if(GUILayout.Button("Load"))
+				if (GUILayout.Button("Load"))
 				{
 					EditorSceneManager.OpenScene(raSceneSO.ScenePath);
 				}
 
-				if(GUILayout.Button("Launch"))
+				if (GUILayout.Button("Launch"))
 				{
-					if(EditorApplication.isPlaying)
+					if (EditorApplication.isPlaying)
 					{
 						EditorApplication.isPlaying = false;
 					}
