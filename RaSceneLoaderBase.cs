@@ -63,6 +63,7 @@ namespace RaScenesSO
 					RaSceneSO oldScene = SceneModel.PreviousScene;
 					RaSceneSO newScene = SceneModel.NextScene;
 
+					SceneModel.Loader_StartLoadingScene();
 					LoadingStartedEvent.Invoke();
 
 					await DoIntro(token);
