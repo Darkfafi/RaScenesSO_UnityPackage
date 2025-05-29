@@ -74,6 +74,11 @@ namespace RaScenesSO
 		protected virtual void OnValidate()
 		{
 #if UNITY_EDITOR
+			if (Application.isPlaying)
+			{
+				return;
+			}
+			
 			UnityEditor.EditorBuildSettingsScene[] scenes = new UnityEditor.EditorBuildSettingsScene[Count];
 			for(int i = 0; i < Count; i++)
 			{
