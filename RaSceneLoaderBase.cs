@@ -80,11 +80,10 @@ namespace RaScenesSO
 					await DoOutro(token);
 					token.ThrowIfCancellationRequested();
 
-					SceneManager.UnloadSceneAsync(gameObject.scene);
-
 					SceneModel.Loader_End();
-
 					LoadingEndedEvent.Invoke();
+
+					var unloadOperation = SceneManager.UnloadSceneAsync(gameObject.scene);
 				}
 			}
 			catch(OperationCanceledException)
