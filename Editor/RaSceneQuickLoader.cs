@@ -73,6 +73,21 @@ namespace RaScenesSO.Editors
 			}
 			GUI.backgroundColor = Color.white;
 
+
+			GUILayout.BeginHorizontal();
+			{
+				if (GUILayout.Button("<- Return", GUILayout.Height(35)))
+				{
+					LoadPreviousScene();
+				}
+
+				if (GUILayout.Button("Load ->", GUILayout.Height(35)))
+				{
+					LoadTargetScene(_scenePaths[_selectedIndex]);
+				}
+			}
+			GUILayout.EndHorizontal();
+
 			GUILayout.Space(5);
 			if (GUILayout.Button("Refresh Scene List"))
 			{
@@ -86,6 +101,12 @@ namespace RaScenesSO.Editors
 
 
 		public static void PlayTargetScene(string targetScenePath)
+		{
+			LoadTargetScene(targetScenePath);
+			EditorApplication.isPlaying = true;
+		}
+
+		public static void LoadTargetScene(string targetScenePath)
 		{
 			if (EditorApplication.isPlaying)
 			{
@@ -102,9 +123,32 @@ namespace RaScenesSO.Editors
 			EditorPrefs.SetBool(ACTIVE_PREF, true);
 
 			EditorSceneManager.OpenScene(targetScenePath, OpenSceneMode.Single);
-
-			EditorApplication.isPlaying = true;
 		}
+
+		public static void LoadPreviousScene()
+		{
+			if (EditorApplication.isPlaying)
+			{
+				return;
+			}
+
+			if (EditorPrefs.GetBool(ACTIVE_PREF, false))
+			{
+				EditorPrefs.SetBool(ACTIVE_PREF, false);
+
+				string prevScene = EditorPrefs.GetString(PREV_SCENE_PREF, string.Empty);
+
+				if (string.IsNullOrEmpty(prevScene))
+				{
+					EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+				}
+				else
+				{
+					EditorSceneManager.OpenScene(prevScene, OpenSceneMode.Single);
+				}
+			}
+		}
+
 
 		#endregion
 
@@ -131,21 +175,7 @@ namespace RaScenesSO.Editors
 		{
 			if (state == PlayModeStateChange.EnteredEditMode)
 			{
-				if (EditorPrefs.GetBool(ACTIVE_PREF, false))
-				{
-					EditorPrefs.SetBool(ACTIVE_PREF, false);
-
-					string prevScene = EditorPrefs.GetString(PREV_SCENE_PREF, string.Empty);
-
-					if (string.IsNullOrEmpty(prevScene))
-					{
-						EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-					}
-					else
-					{
-						EditorSceneManager.OpenScene(prevScene, OpenSceneMode.Single);
-					}
-				}
+				LoadPreviousScene();
 			}
 		}
 
